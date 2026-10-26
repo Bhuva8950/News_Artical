@@ -1,5 +1,5 @@
 
-# import time
+import time
 # from urllib.parse import urlparse
 
 # from newspaper import Article

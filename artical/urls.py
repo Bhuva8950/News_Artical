@@ -4,6 +4,7 @@ from django.urls import path
 from .views import (
     ArticleCreateAPIView,
     ArticleListAPIView,
+    ProcessArtical
 )
 
 urlpatterns = [
@@ -16,5 +17,10 @@ urlpatterns = [
         "articles/create/",
         ArticleCreateAPIView.as_view(),
         name="article-create",
+    ),
+    path(
+        "articles/process/",
+        ProcessArtical.as_view(),
+        name="article-process",
     ),
 ]

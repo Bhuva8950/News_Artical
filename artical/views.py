@@ -52,3 +52,41 @@ class ArticleListAPIView(generics.ListAPIView):
             )
 
         return queryset
+
+
+def UpdatAartical(articals):
+
+    for artical in articals :
+        artical.status  = "procesing"
+        artical.save()
+        try:
+            #add company detail via helper function 
+            data = extract_dummy_article(artical.url)
+
+            serializer = ArticleCreateSerializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            artical.status  = "Completed"
+            artical.save()
+        except :
+            #Store error and URL details in DB 
+            pass
+
+
+
+
+class ProcessArtical(APIView):
+
+    def post(self, request):
+        articals = Article.objects.filter(status = "pending")
+
+        #Update status and add company and name artical details vie function
+
+        UpdatAartical.delay(articals)
+
+
+        return Response(
+            {"message":"Artical process quee create Successfully"},
+            status=status.HTTP_201_CREATED,
+        )
+
